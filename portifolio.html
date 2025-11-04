@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bebas+Neue&family=Boldonse&family=Bungee&family=Caveat:wght@400..700&family=Codystar:wght@300;400&family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Manufacturing+Consent&family=Noto+Sans+JP:wght@100..900&family=Playwrite+HU:wght@100..400&family=Romanesco&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+    <style>
+        body {
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            cursor: none; /* Esconde o cursor padrão */
+        }
+        
+        /* Mostra cursor padrão apenas em elementos interativos */
+        a, button, .project-card {
+            cursor: none;
+        }
+        
+        /* Cursor circular personalizado */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid white;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+        
+        .custom-cursor.hover {
+            transform: scale(1.5);
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        .parallax-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .content-section {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .visible {
+            opacity: 1;
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .cube {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            transform-style: preserve-3d;
+            animation: rotate 20s infinite linear;
+            transition: transform 0.2s ease-out, top 0.3s ease-out, left 0.3s ease-out;
+        }
+        
+        .cube-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.5);
+        }
+        
+        @keyframes rotate {
+            from { transform: rotateX(0deg) rotateY(0deg); }
+            to { transform: rotateX(360deg) rotateY(360deg); }
+        }
+        
+        /* Estrelas */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .star.twinkle {
+            animation: twinkle 2s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+    </style>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="custom-cursor"></div>
+    
+    <!-- Stars Container -->
+    <div id="stars-container" class="fixed inset-0 overflow-hidden pointer-events-none"></div>
+    
+    <!-- Floating Cube (Mouse Following) -->
+    <div id="scene" class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="cube absolute" id="mouse-cube">
+                <div class="cube-face" style="transform: rotateY(0deg) translateZ(50px);"></div>
+                <div class="cube-face" style="transform: rotateY(90deg) translateZ(50px);"></div>
+                <div class="cube-face" style="transform: rotateY(180deg) translateZ(50px);"></div>
+                <div class="cube-face" style="transform: rotateY(-90deg) translateZ(50px);"></div>
+                <div class="cube-face" style="transform: rotateX(90deg) translateZ(50px);"></div>
+                <div class="cube-face" style="transform: rotateX(-90deg) translateZ(50px);"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="content-section">
+        <div class="container mx-auto px-6 text-center fade-in">
+            <h1 id="glitch-name" class="text-5xl md:text-7xl font-bold mb-6 floating">Samuel Jordesson</h1>
+            <p class="text-xl md:text-2xl mb-8 opacity-80">WEB DEVELOPER & DESIGNER</p>
+            <div class="w-20 h-1 bg-white mx-auto mb-8"></div>
+            <div class="flex items-center justify-center gap-6 mb-12">
+                <a href="https://www.instagram.com/jordesso/" target="_blank" rel="noopener noreferrer" class="hover:opacity-70 transition-opacity duration-300">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.26.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                <a href="https://github.com/Samuel-Jordesson" target="_blank" rel="noopener noreferrer" class="hover:opacity-70 transition-opacity duration-300">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="content-section">
+        <div class="container mx-auto px-6 fade-in">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0 md:pr-12">
+                    <h2 class="text-4xl font-bold mb-8">SOBRE MIM</h2>
+                    <p class="text-lg mb-6 opacity-90">Sou um desenvolvedor web apaixonado com mais de 5 anos de experiência criando sites e aplicações bonitos e funcionais.</p>
+                    <p class="text-lg mb-6 opacity-90">Minha abordagem combina expertise técnica com olho para design, resultando em produtos digitais que são poderosos e elegantes.</p>
+                    <div class="flex space-x-4">
+                        <div class="w-12 h-12 rounded-full border border-white opacity-50 flex items-center justify-center">JS</div>
+                        <div class="w-12 h-12 rounded-full border border-white opacity-50 flex items-center justify-center">TS</div>
+                        <div class="w-12 h-12 rounded-full border border-white opacity-50 flex items-center justify-center">RE</div>
+                        <div class="w-12 h-12 rounded-full border border-white opacity-50 flex items-center justify-center">CSS</div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative">
+                    <div class="absolute -bottom-6 -right-6 w-full h-80 bg-gradient-to-br from-gray-800 to-black border border-gray-700 rounded-lg transform -rotate-3 z-0"></div>
+                    <div class="relative w-full h-80 border border-gray-800 rounded-lg transform rotate-3 overflow-hidden z-10">
+                        <img src="src/Imagem do WhatsApp de 2025-11-04 à(s) 10.38.06_b2cbd199.jpg" alt="Samuel Jordesson" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="content-section">
+        <div class="container mx-auto px-6 fade-in mt-16 md:mt-0">
+            <h2 class="text-4xl font-bold mb-12 text-center">SELECTED WORK</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12 mb-12">
+                <!-- Project 1 -->
+                <div class="project-card group">
+                    <div class="relative overflow-hidden rounded-lg border border-gray-800 aspect-video mb-4">
+                        <img src="src/Frame 30.png" alt="Lumio Project" class="w-full h-full object-cover">
+                        <a href="https://lumio-brown.vercel.app/login" target="_blank" rel="noopener noreferrer" class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 cursor-pointer z-10">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-6 h-6 opacity-70" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                </svg>
+                                <span class="text-2xl opacity-70">Ver Projeto</span>
+                            </div>
+                        </a>
+                        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 to-black opacity-0 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none"></div>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-2">Lumio</h3>
+                    <p class="opacity-80">Rede social minimalista, para amigos e família</p>
+                    <p class="mt-4 text-sm opacity-70">Desenvolvido com React, Node.js e SQLite para o backend. Frontend na <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-100">Vercel</a> e backend na <a href="https://railway.com" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-100">Railway</a>.</p>
+                    <a href="src/PDF.pdf" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 px-6 py-2 border border-white rounded-full hover:bg-white hover:text-black transition-colors duration-300 text-sm">Ver PDF</a>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card group">
+                    <div class="relative overflow-hidden rounded-lg border border-gray-800 aspect-video mb-4">
+                        <img src="src/Frame 31.png" alt="BookBeauty Project" class="w-full h-full object-cover">
+                        <a href="https://book-beauty.vercel.app/" target="_blank" rel="noopener noreferrer" class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 cursor-pointer z-10">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-6 h-6 opacity-70" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                </svg>
+                                <span class="text-2xl opacity-70">Ver Projeto</span>
+                            </div>
+                        </a>
+                        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 to-black opacity-0 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none"></div>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-2">Agenda de Salões de Beleza</h3>
+                    <p class="opacity-80">Desenvolvido para gerenciar agendamentos de salões de beleza e barbearia, assim podendo ter em apenas um lugar e poder ver os agendamentos, e personalizar seu link de agendamento</p>
+                    <p class="mt-4 text-sm opacity-70">Desenvolvido com Next.js e Supabase como banco de dados, estava testando esse banco para ver como se sai, o design foi feito com Tailwind.</p>
+                    <a href="src/salão.pdf" target="_blank" rel="noopener noreferrer" class="inline-block mt-4 px-6 py-2 border border-white rounded-full hover:bg-white hover:text-black transition-colors duration-300 text-sm">Ver PDF</a>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <a href="https://github.com/Samuel-Jordesson" target="_blank" rel="noopener noreferrer" class="inline-block px-6 py-3 border border-white rounded-full hover:bg-white hover:text-black transition-colors duration-300 interactive-element">
+                    VIEW ALL WORK
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="content-section">
+        <div class="container mx-auto px-6 text-center fade-in">
+            <h2 class="text-4xl font-bold mb-8">GET IN TOUCH</h2>
+            <p class="max-w-2xl mx-auto text-lg mb-12 opacity-90">Interessado em trabalharmos juntos ou tem um projeto em mente? Adoraria ouvir de você.</p>
+            <div class="flex flex-col items-center gap-4">
+                <a href="mailto:samueljordesson77@gmail.com" class="px-8 py-4 border border-white rounded-full hover:bg-white hover:text-black transition-colors duration-300 w-fit min-w-[300px] text-center">samueljordesson77@gmail.com</a>
+                <a href="https://wa.me/91989294335" target="_blank" rel="noopener noreferrer" class="px-8 py-4 border border-white rounded-full hover:bg-white hover:text-black transition-colors duration-300 w-fit min-w-[300px] text-center">WhatsApp: (91) 98929-4355</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mouse following cube
+        const mouseCube = document.getElementById('mouse-cube');
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        // Track mouse position
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        // Smooth follow with scroll and lag effect
+        function followMouse() {
+            const targetX = mouseX;
+            const targetY = mouseY;
+            
+            // Current position
+            const currentX = parseFloat(mouseCube.style.left) || targetX;
+            const currentY = parseFloat(mouseCube.style.top) || targetY;
+            
+            // Apply lag effect (lerp)
+            const newX = currentX + (targetX - currentX) * 0.2;
+            const newY = currentY + (targetY - currentY) * 0.2;
+            
+            mouseCube.style.left = `${newX}px`;
+            mouseCube.style.top = `${newY}px`;
+            
+            requestAnimationFrame(followMouse);
+        }
+        
+        followMouse();
+        
+        // Stars system
+        const starsContainer = document.getElementById('stars-container');
+        const stars = [];
+        const numStars = 100;
+        
+        // Create stars
+        function createStars() {
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * window.innerWidth + 'px';
+                star.style.top = Math.random() * window.innerHeight + 'px';
+                
+                // Random twinkle effect
+                if (Math.random() > 0.7) {
+                    star.classList.add('twinkle');
+                }
+                
+                starsContainer.appendChild(star);
+                stars.push({
+                    element: star,
+                    x: parseFloat(star.style.left),
+                    y: parseFloat(star.style.top),
+                    vx: (Math.random() - 0.5) * 0.5, // Random velocity
+                    vy: (Math.random() - 0.5) * 0.5
+                });
+            }
+        }
+        
+        // Check collision between star and cube
+        function checkCollision(star, cubeX, cubeY) {
+            const starX = star.x;
+            const starY = star.y;
+            const cubeSize = 100; // Cube size
+            const collisionDistance = cubeSize / 2 + 10; // Collision radius
+            
+            const distance = Math.sqrt((starX - cubeX) ** 2 + (starY - cubeY) ** 2);
+            
+            if (distance < collisionDistance) {
+                // Calculate repulsion direction
+                const angle = Math.atan2(starY - cubeY, starX - cubeX);
+                const repulsionForce = 2;
+                
+                star.vx = Math.cos(angle) * repulsionForce;
+                star.vy = Math.sin(angle) * repulsionForce;
+                
+                // Add visual effect
+                star.element.style.transform = 'scale(2)';
+                setTimeout(() => {
+                    star.element.style.transform = 'scale(1)';
+                }, 200);
+            }
+        }
+        
+        // Update stars position
+        function updateStars() {
+            const cubeX = parseFloat(mouseCube.style.left) || 0;
+            const cubeY = parseFloat(mouseCube.style.top) || 0;
+            
+            stars.forEach(star => {
+                // Check collision
+                checkCollision(star, cubeX, cubeY);
+                
+                // Update position
+                star.x += star.vx;
+                star.y += star.vy;
+                
+                // Bounce off walls
+                if (star.x < 0 || star.x > window.innerWidth) {
+                    star.vx *= -0.8;
+                    star.x = Math.max(0, Math.min(window.innerWidth, star.x));
+                }
+                if (star.y < 0 || star.y > window.innerHeight) {
+                    star.vy *= -0.8;
+                    star.y = Math.max(0, Math.min(window.innerHeight, star.y));
+                }
+                
+                // Apply friction
+                star.vx *= 0.99;
+                star.vy *= 0.99;
+                
+                // Update element position
+                star.element.style.left = star.x + 'px';
+                star.element.style.top = star.y + 'px';
+            });
+            
+            requestAnimationFrame(updateStars);
+        }
+        
+        // Initialize stars
+        createStars();
+        updateStars();
+        
+        // Scroll reveal animation (kept for section fade-ins)
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInOnScroll = () => {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+        
+        // Check on initial load
+        fadeInOnScroll();
+        
+        // Check on scroll
+        window.addEventListener('scroll', fadeInOnScroll);
+
+        // Font glitch effect
+        const fonts = [
+            'Abril Fatface',
+            'Bebas Neue',
+            'Boldonse',
+            'Bungee',
+            'Caveat',
+            'Codystar',
+            'Google Sans Code',
+            'Manufacturing Consent',
+            'Noto Sans JP',
+            'Playwrite HU',
+            'Romanesco'
+        ];
+
+        const nameElement = document.getElementById('glitch-name');
+
+        function glitchFont() {
+            // Save original state
+            const originalText = nameElement.textContent;
+            const originalFont = nameElement.style.fontFamily;
+            
+            // Rapidly cycle through 10 random fonts with glitch effects
+            let cycles = 0;
+            const glitchInterval = setInterval(() => {
+                // Random font
+                const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
+                nameElement.style.fontFamily = randomFont;
+                
+                // Error effect for 0.5s
+                if (cycles < 10) { // Only during the 10 font cycles
+                    // Strong glitch effects
+                    nameElement.style.letterSpacing = `${Math.random() * 20 - 10}px`;
+                    nameElement.style.transform = `skew(${Math.random() * 30 - 15}deg) scale(${0.8 + Math.random() * 0.4})`;
+                    
+                    // Random character corruption
+                    if (cycles % 3 === 0) {
+                        nameElement.textContent = originalText.split('').map(c => 
+                            Math.random() > 0.5 ? String.fromCharCode(c.charCodeAt(0) + Math.floor(Math.random() * 20) - 10) : c
+                        ).join('');
+                    }
+                    
+                    // Random color flashes
+                    if (Math.random() > 0.7) {
+                        nameElement.style.color = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
+                    } else {
+                        nameElement.style.color = 'white';
+                    }
+                }
+                
+                cycles++;
+                
+                if (cycles >= 10) {
+                    clearInterval(glitchInterval);
+                    // Reset to original name and effects
+                    nameElement.style.fontFamily = 'Bebas Neue';
+                    nameElement.style.letterSpacing = 'normal';
+                    nameElement.style.transform = 'none';
+                    nameElement.textContent = 'Samuel Jordesson';
+                    nameElement.style.color = 'white';
+                }
+            }, 50); // Change every 50ms (0.05s) for 10 cycles = 0.5s total
+        }
+
+        // Start glitch effect every 3 seconds
+        setInterval(glitchFont, 3000);
+        // Initial glitch
+        setTimeout(glitchFont, 1000);
+        
+        // Custom cursor functionality
+        const customCursor = document.getElementById('custom-cursor');
+        
+        // Update cursor position
+        document.addEventListener('mousemove', (e) => {
+            customCursor.style.left = e.clientX + 'px';
+            customCursor.style.top = e.clientY + 'px';
+        });
+        
+        // Add hover effect for interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .project-card, .interactive-element');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                customCursor.classList.add('hover');
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                customCursor.classList.remove('hover');
+            });
+        });
+        
+    </script>
+</body>
+</html>
